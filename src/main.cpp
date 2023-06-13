@@ -269,19 +269,19 @@ void make_seperate_line(std::stringstream& ss){
       ss << "─";
     ss << "──┼";
   }
-  ss << "─┼───┤\n";
+  ss << "────┤\n";
 }
 void add_axis(std::stringstream& ss){
   ss << "│";
   for(int w=0; w<BOARD_W; w+=1){
     for(int h=0; h<PIECE_STR_LEN/2; h+=1)
       ss << " ";
-    ss << " " << x_axis[w] << " ";
+    ss << x_axis[w] << "  ";
     for(int h=0; h<PIECE_STR_LEN/2 - (PIECE_STR_LEN+1)%2; h+=1)
       ss << " ";
     ss << "│";
   }
-  ss << " │   │\n";
+  ss << "    │\n";
 }
 /**
  * @brief encode the output for command line output
@@ -297,7 +297,7 @@ std::string State::encode_output(){
       ss << "─";
     ss << "──┬";
   }
-  ss << "─┬───┐\n";
+  ss << "────┐\n";
   
   for(int i=0; i<BOARD_H; i+=1){
     for(int j=0; j<BOARD_W; j+=1){
@@ -310,10 +310,9 @@ std::string State::encode_output(){
         ss << std::string(PIECE_TABLE[0][0]) << " ";
       }
     }
-    ss << "│ │ " << y_axis[i] << " │\n";
+    ss << "│  " << y_axis[i] << " │\n";
     make_seperate_line(ss);
   }
-  make_seperate_line(ss);
   add_axis(ss);
   
   ss << "└";
@@ -322,7 +321,7 @@ std::string State::encode_output(){
       ss << "─";
     ss << "──┴";
   }
-  ss << "─┴───┘\n";
+  ss << "────┘\n";
   return ss.str();
 }
 

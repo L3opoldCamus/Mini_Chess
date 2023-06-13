@@ -1,4 +1,4 @@
-#pragma once
+ #pragma once
 
 /*Board Size, Don't change!*/
 #define BOARD_H 6
