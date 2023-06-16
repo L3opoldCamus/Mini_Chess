@@ -13,7 +13,83 @@
  */
 int State::evaluate(){
   // [TODO] design your own evaluation function
-  return 0;
+  int mypiece=0;
+  int oppnpiece=0;
+  for (int i = 0; i < BOARD_H; i++){
+    for (int j = 0; j < BOARD_W; j++){
+      if (board.board[player][i][j]){
+        switch (board.board[player][i][j]){
+          case 1:
+            mypiece+=1000+piece_square_table_pawn[player][i][j];
+            break;
+          case 2:
+            mypiece+=5000+piece_square_table_rook[player][i][j];
+            break;
+          case 3:
+            mypiece+=3200+piece_square_table_knight[player][i][j];
+            break;
+          case 4:
+            mypiece+=3300+piece_square_table_bishop[player][i][j];
+            break;
+          case 5:
+            mypiece+=9000+piece_square_table_queen[player][i][j];
+            break;
+          case 6:
+            mypiece+=1000000+piece_square_table_king[player][i][j];
+            break;
+        }
+      }
+      if (board.board[1-player][i][j]){
+        switch (board.board[1-player][i][j]){
+          case 1:
+            oppnpiece+=1000+piece_square_table_pawn[1-player][i][j];
+            break;
+          case 2:
+            oppnpiece+=5000+piece_square_table_rook[1-player][i][j];
+            break;
+          case 3:
+            oppnpiece+=3200+piece_square_table_knight[1-player][i][j];
+            break;
+          case 4:
+            oppnpiece+=3300+piece_square_table_bishop[1-player][i][j];
+            break;
+          case 5:
+            oppnpiece+=9000+piece_square_table_queen[1-player][i][j];
+            break;
+          case 6:
+            oppnpiece+=1000000+piece_square_table_king[1-player][i][j];
+            break;
+        }
+      }
+    }
+  }
+  this->value = mypiece-oppnpiece;
+  // std::cout<<value<<"T\n";
+  return this->value;
+  /*
+  if (ate_piece){
+    float factor=1;//value more when eating with low val piece
+    if (movedpiece > ate_piece && ate_piece!=2) factor = ate_piece-movedpiece;
+    switch (ate_piece){
+    case 1://pawn
+      value+=10*factor;
+      break;
+    case 2://rook
+      value+=50*factor;
+      break;
+    case 3://knight
+    case 4://bishop
+      value+=30*factor;
+      break;
+    case 5://queen
+      value+=90*factor;
+    case 6://king
+      value+=1000000;
+    }
+  }
+  value+=(3-abs(2.0-mv.second.first)-abs(2.0-mv.second.second))*0.3;//closer to the center the better
+  return value;
+  */
 }
 
 
@@ -28,19 +104,26 @@ State* State::next_state(Move move){
   Point from = move.first, to = move.second;
   
   int8_t moved = next.board[this->player][from.first][from.second];
+  int8_t piece_ate=0;
   //promotion for pawn
   if(moved == 1 && (to.first==BOARD_H-1 || to.first==0)){
     moved = 5;
   }
   if(next.board[1-this->player][to.first][to.second]){
+    piece_ate = next.board[1-player][to.first][to.second];
     next.board[1-this->player][to.first][to.second] = 0;
   }
   
   next.board[this->player][from.first][from.second] = 0;
   next.board[this->player][to.first][to.second] = moved;
   
+
   State* next_state = new State(next, 1-this->player);
   
+  next_state->mv = move;
+  next_state->movedpiece = moved;
+  next_state->ate_piece = piece_ate;
+
   if(this->game_state != WIN)
     next_state->get_legal_actions();
   return next_state;
@@ -207,7 +290,6 @@ void State::get_legal_actions(){
       }
     }
   }
-  std::cout << "\n";
   this->legal_actions = all_actions;
 }
 

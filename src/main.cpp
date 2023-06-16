@@ -276,7 +276,7 @@ void add_axis(std::stringstream& ss){
   for(int w=0; w<BOARD_W; w+=1){
     for(int h=0; h<PIECE_STR_LEN/2; h+=1)
       ss << " ";
-    ss << x_axis[w] << "  ";
+    ss << " "<<x_axis[w] << " ";
     for(int h=0; h<PIECE_STR_LEN/2 - (PIECE_STR_LEN+1)%2; h+=1)
       ss << " ";
     ss << "│";
@@ -310,7 +310,7 @@ std::string State::encode_output(){
         ss << std::string(PIECE_TABLE[0][0]) << " ";
       }
     }
-    ss << "│  " << y_axis[i] << " │\n";
+    ss << "│ " << y_axis[i] << "  │\n";
     make_seperate_line(ss);
   }
   add_axis(ss);
@@ -379,12 +379,14 @@ void launch_executable(std::string filename) {
 
 
 bool valid_move(Move move, std::vector<Move>& legal_moves){
-  if(move.first.first>BOARD_H || move.first.second>BOARD_H){
-    return false;
-  }
-  if(move.second.first>BOARD_W || move.second.second>BOARD_W){
-    return false;
-  }
+  if (move.first.first > BOARD_H || move.first.second>BOARD_W) return false;//test
+  if (move.second.first>BOARD_H || move.second.second>BOARD_W) return false;//test
+  // if(move.first.first>BOARD_H || move.first.second>BOARD_H){
+  //   return false;
+  // }
+  // if(move.second.first>BOARD_W || move.second.second>BOARD_W){
+  //   return false;
+  // }
   for(Move mv: legal_moves){
     if(mv==move){
       return true;
@@ -411,7 +413,6 @@ int main(int argc, char** argv) {
   std::string data;
   int step=1;
   while (game.game_state == UNKNOWN || game.game_state == NONE) {
-    // std::cout << "test\n";
     // Output current state
     std::cout << step << " step" << std::endl;
     log << step << " step" << std::endl;
