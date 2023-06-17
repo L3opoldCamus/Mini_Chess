@@ -6,7 +6,7 @@
  * @brief Policy class for Minimax policy, 
  * your policy class should have get_move method
  */
-class Minimax{
+class AlphaBetaPrune{
 public:
   static Move get_move(State *state, int depth);
 };

@@ -2,9 +2,9 @@
 #include <iostream>
 
 #include "../state/state.hpp"
-#include "./minimax.hpp"
+#include "./∂ßprune.hpp"
 
-int minimax(State *state, int depth, bool myself);
+int alphabeta(State *state, int depth, bool myself,int alpha,int beta);
 
 /**
  * @brief Use Minimax to choose next move
@@ -13,7 +13,7 @@ int minimax(State *state, int depth, bool myself);
  * @param depth You may need this for other policy
  * @return Move 
  */
-Move Minimax::get_move(State *state, int depth){
+Move AlphaBetaPrune::get_move(State *state, int depth){
     if(!state->legal_actions.size()) state->get_legal_actions();
     auto actions = state->legal_actions;
     int chosen=0;
@@ -21,7 +21,7 @@ Move Minimax::get_move(State *state, int depth){
     int maxval = -100000000;
     bool flag = depth%2;
     for (unsigned long i = 0; i < actions.size(); i++){
-        int tem = minimax(state->next_state(actions[i]),depth,flag);
+        int tem = alphabeta(state->next_state(actions[i]),depth,flag,-100000000,100000000);
         if (flag){
             if (maxval < tem){
                 chosen = i;
@@ -38,7 +38,7 @@ Move Minimax::get_move(State *state, int depth){
     return actions[chosen];
 }
 
-int minimax(State *state, int depth, bool myself){//myself if state is player take action
+int alphabeta(State *state, int depth, bool myself,int alpha,int beta){//myself if state is player take action
     if (!depth) return state->evaluate();
     if (!state->legal_actions.size()) state->get_legal_actions();
     auto actions = state->legal_actions;
@@ -46,16 +46,20 @@ int minimax(State *state, int depth, bool myself){//myself if state is player ta
     if (myself){
         int minval=100000000;    
         for (unsigned long i = 0; i < actions.size(); i++){
-            int tem = minimax(state->next_state(actions[i]),depth-1,false);
+            int tem = alphabeta(state->next_state(actions[i]),depth-1,false,alpha,beta);
             minval = std::min(minval,tem);
+            beta = std::min(beta,minval);
+            if (beta <= alpha) break;
         }
         return minval;
     }
     else {
         int maxval=-100000000;
         for (unsigned long i = 0; i < actions.size(); i++){
-            int tem = minimax(state->next_state(actions[i]),depth-1,true);
-            maxval = std::max(maxval,tem);
+            int tem = alphabeta(state->next_state(actions[i]),depth-1,true,alpha,beta);
+            if (maxval<tem) maxval = tem;
+            alpha = std::max(alpha,maxval);
+            if (alpha >= beta) break;
         }
         return maxval;
     }
