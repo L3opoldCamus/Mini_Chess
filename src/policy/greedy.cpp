@@ -12,14 +12,14 @@
  * @param depth You may need this for other policy
  * @return Move 
  */
-Move Greedy::get_move(State *state, int depth){
+Move Greedy::get_move(State *state){
   if(!state->legal_actions.size())//Legal action exists
     state->get_legal_actions();
   
   auto actions = state->legal_actions;
   int chosen=0;
   int minval = state->next_state(actions[0])->evaluate();
-  for (int i = chosen+1; i < actions.size(); i++){
+  for (unsigned long i = chosen+1; i < actions.size(); i++){
     int tem = state->next_state(actions[i])->evaluate();
     if (minval>tem){
       chosen = i;

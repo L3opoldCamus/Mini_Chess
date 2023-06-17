@@ -64,7 +64,6 @@ int State::evaluate(){
     }
   }
   this->value = mypiece-oppnpiece;
-  // std::cout<<value<<"T\n";
   return this->value;
   /*
   if (ate_piece){
@@ -104,13 +103,11 @@ State* State::next_state(Move move){
   Point from = move.first, to = move.second;
   
   int8_t moved = next.board[this->player][from.first][from.second];
-  int8_t piece_ate=0;
   //promotion for pawn
   if(moved == 1 && (to.first==BOARD_H-1 || to.first==0)){
     moved = 5;
   }
   if(next.board[1-this->player][to.first][to.second]){
-    piece_ate = next.board[1-player][to.first][to.second];
     next.board[1-this->player][to.first][to.second] = 0;
   }
   
@@ -119,11 +116,7 @@ State* State::next_state(Move move){
   
 
   State* next_state = new State(next, 1-this->player);
-  
-  next_state->mv = move;
-  next_state->movedpiece = moved;
-  next_state->ate_piece = piece_ate;
-
+  next_state->move = move;
   if(this->game_state != WIN)
     next_state->get_legal_actions();
   return next_state;
