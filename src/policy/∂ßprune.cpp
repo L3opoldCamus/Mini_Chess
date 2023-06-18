@@ -4,7 +4,7 @@
 #include "../state/state.hpp"
 #include "./∂ßprune.hpp"
 
-int alphabeta(State *state, int depth, bool myself,int alpha,int beta);
+// int count;
 
 /**
  * @brief Use Minimax to choose next move
@@ -21,7 +21,7 @@ Move AlphaBetaPrune::get_move(State *state, int depth){
     int maxval = -100000000;
     bool flag = depth%2;
     for (unsigned long i = 0; i < actions.size(); i++){
-        int tem = alphabeta(state->next_state(actions[i]),depth,flag,-100000000,100000000);
+        int tem = AlphaBetaPrune::alphabeta(state->next_state(actions[i]),depth,flag,-100000000,100000000);
         if (flag){
             if (maxval < tem){
                 chosen = i;
@@ -35,10 +35,12 @@ Move AlphaBetaPrune::get_move(State *state, int depth){
             } 
         }
     }
+    // std::cout<<"Step Count: "<<count<<"\n";
     return actions[chosen];
 }
 
-int alphabeta(State *state, int depth, bool myself,int alpha,int beta){//myself if state is player take action
+int AlphaBetaPrune::alphabeta(State *state, int depth, bool myself,int alpha,int beta){//myself if state is player take action
+    // count++;
     if (!depth) return state->evaluate();
     if (!state->legal_actions.size()) state->get_legal_actions();
     auto actions = state->legal_actions;

@@ -4,7 +4,7 @@
 #include "../state/state.hpp"
 #include "./minimax.hpp"
 
-int minimax(State *state, int depth, bool myself);
+// int count1;
 
 /**
  * @brief Use Minimax to choose next move
@@ -21,7 +21,7 @@ Move Minimax::get_move(State *state, int depth){
     int maxval = -100000000;
     bool flag = depth%2;
     for (unsigned long i = 0; i < actions.size(); i++){
-        int tem = minimax(state->next_state(actions[i]),depth,flag);
+        int tem = Minimax::minimax(state->next_state(actions[i]),depth,flag);
         if (flag){
             if (maxval < tem){
                 chosen = i;
@@ -35,10 +35,12 @@ Move Minimax::get_move(State *state, int depth){
             } 
         }
     }
+    // std::cout<<"Step Count: "<<count1<<"\n";
     return actions[chosen];
 }
 
-int minimax(State *state, int depth, bool myself){//myself if state is player take action
+int Minimax::minimax(State *state, int depth, bool myself){//myself if state is player take action
+    // count1++;
     if (!depth) return state->evaluate();
     if (!state->legal_actions.size()) state->get_legal_actions();
     auto actions = state->legal_actions;

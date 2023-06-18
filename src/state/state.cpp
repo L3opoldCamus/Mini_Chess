@@ -20,44 +20,44 @@ int State::evaluate(){
       if (board.board[player][i][j]){
         switch (board.board[player][i][j]){
           case 1:
-            mypiece+=100;//+piece_square_table_pawn[player][i][j];
+            mypiece+=100+piece_square_table_pawn[player][i][j];
             break;
           case 2:
-            mypiece+=500;//+piece_square_table_rook[player][i][j];
+            mypiece+=500+piece_square_table_rook[player][i][j];
             break;
           case 3:
-            mypiece+=320;//+piece_square_table_knight[player][i][j];
+            mypiece+=320+piece_square_table_knight[player][i][j];
             break;
           case 4:
-            mypiece+=330;//+piece_square_table_bishop[player][i][j];
+            mypiece+=330+piece_square_table_bishop[player][i][j];
             break;
           case 5:
-            mypiece+=900;//+piece_square_table_queen[player][i][j];
+            mypiece+=900+piece_square_table_queen[player][i][j];
             break;
           case 6:
-            mypiece+=1000000;//+piece_square_table_king[player][i][j];
+            mypiece+=1000000+piece_square_table_king[player][i][j];
             break;
         }
       }
       if (board.board[1-player][i][j]){
         switch (board.board[1-player][i][j]){
           case 1:
-            oppnpiece+=100;//+piece_square_table_pawn[1-player][i][j];
+            oppnpiece+=100+piece_square_table_pawn[1-player][i][j];
             break;
           case 2:
-            oppnpiece+=500;//+piece_square_table_rook[1-player][i][j];
+            oppnpiece+=500+piece_square_table_rook[1-player][i][j];
             break;
           case 3:
-            oppnpiece+=320;//+piece_square_table_knight[1-player][i][j];
+            oppnpiece+=320+piece_square_table_knight[1-player][i][j];
             break;
           case 4:
-            oppnpiece+=330;//+piece_square_table_bishop[1-player][i][j];
+            oppnpiece+=330+piece_square_table_bishop[1-player][i][j];
             break;
           case 5:
-            oppnpiece+=900;//+piece_square_table_queen[1-player][i][j];
+            oppnpiece+=900+piece_square_table_queen[1-player][i][j];
             break;
           case 6:
-            oppnpiece+=1000000;//+piece_square_table_king[1-player][i][j];
+            oppnpiece+=1000000+piece_square_table_king[1-player][i][j];
             break;
         }
       }
@@ -65,30 +65,7 @@ int State::evaluate(){
   }
   this->value = mypiece-oppnpiece;
   return this->value;
-  /*
-  if (ate_piece){
-    float factor=1;//value more when eating with low val piece
-    if (movedpiece > ate_piece && ate_piece!=2) factor = ate_piece-movedpiece;
-    switch (ate_piece){
-    case 1://pawn
-      value+=10*factor;
-      break;
-    case 2://rook
-      value+=50*factor;
-      break;
-    case 3://knight
-    case 4://bishop
-      value+=30*factor;
-      break;
-    case 5://queen
-      value+=90*factor;
-    case 6://king
-      value+=1000000;
-    }
-  }
-  value+=(3-abs(2.0-mv.second.first)-abs(2.0-mv.second.second))*0.3;//closer to the center the better
-  return value;
-  */
+
 }
 
 

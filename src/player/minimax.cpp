@@ -40,7 +40,7 @@ void write_valid_spot(std::ofstream& fout) {
   // Keep updating the output until getting killed.
   while(true) {
     // Choose a spot.
-    auto move = Minimax::get_move(root, 2);//2WW
+    auto move = Minimax::get_move(root, 4);//2WW
     fout << move.first.first << " " << move.first.second << " "\
          << move.second.first << " " << move.second.second << std::endl;
     

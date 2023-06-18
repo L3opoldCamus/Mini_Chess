@@ -43,7 +43,8 @@ enum GameState {
   UNKNOWN = 0,
   WIN,
   DRAW,
-  NONE
+  NONE,
+  CHECK // the player got checked
 };
 
 class State{
@@ -133,7 +134,6 @@ void State::get_legal_actions(){
   for(int i=0; i<BOARD_H; i+=1){
     for(int j=0; j<BOARD_W; j+=1){
       if((now_piece=self_board[i][j])){
-        // std::cout << this->player << "," << now_piece << ' ';
         switch (now_piece){
           case 1: //pawn
             if(this->player && i<BOARD_H-1){
@@ -254,8 +254,8 @@ void State::get_legal_actions(){
       }
     }
   }
-  std::cout << "\n";
   this->legal_actions = all_actions;
+  // std::cout << "Possible Moves: "<< legal_actions.size()<< "\n";
 }
 
 static std::string y_axis = "654321";
