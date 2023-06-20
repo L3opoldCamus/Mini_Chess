@@ -3,7 +3,7 @@
 
 #include "../config.hpp"
 #include "../state/state.hpp"
-#include "../policy/minimax.hpp"
+#include "../policy/abprune.hpp"
 
 
 State* root;
@@ -38,17 +38,16 @@ void read_board(std::ifstream& fin) {
  */
 void write_valid_spot(std::ofstream& fout) {
   // Keep updating the output until getting killed.
-  int depth = 2;
+  int depth = 5;
   while(true) {
     // Choose a spot.
-    auto move = Minimax::get_move(root, depth);//2WW
+    auto move = AlphaBetaPrune::get_move(root, depth);//6WW
     fout << move.first.first << " " << move.first.second << " "\
          << move.second.first << " " << move.second.second << std::endl;
     
     // Remember to flush the output to ensure the last action is written to file.
     fout.flush();
-    // depth++;
-    break;
+    depth++;
   }
 }
 

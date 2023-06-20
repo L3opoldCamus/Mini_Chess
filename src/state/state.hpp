@@ -4,6 +4,7 @@
 #include <string>
 #include <cstdlib>
 #include <vector>
+#include <set>
 #include <utility>
 
 #include "../config.hpp"
@@ -37,13 +38,13 @@ const int piece_square_table_pawn[2][BOARD_H][BOARD_W] = {{
     {0,0,0,0,0},//no pawns
     {50,50,50,50,50},
     {7,12,27,12,7},
-    {0,20,20,20,0},
-    {20,10,-40,-60,5},
+    {0,0,30,30,0},
+    {20,-40,-40,-60,5},
     {0,0,0,0,0},//no pawns
   }, {
     //white
     {0,0,0,0,0},
-    {5,-60,-40,10,20},
+    {5,-60,-40,-40,20},
     {0,30,30,0,0},
     {7,12,27,12,7},
     {50,50,50,50,50},
@@ -138,6 +139,7 @@ enum GameState {
   NONE
 };
 
+auto cmp=[](std::pair<int,Move> a, std::pair<int,Move> b){ return a.first > b.first; };
 
 class State{
   public:
@@ -147,9 +149,9 @@ class State{
     int player = 0;
     //Some Extras
     int value = 0;
-    Move move;
     //============
     std::vector<Move> legal_actions;
+    std::multiset<std::pair<int,Move>,decltype(cmp)> ordered_legal_actions;
     
     State(){};
     State(int player): player(player){};

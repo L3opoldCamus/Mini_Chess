@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "../state/state.hpp"
-#include "./∂ßprune.hpp"
+#include "./abprune.hpp"
 
 // int count;
 
@@ -17,7 +17,7 @@ Move AlphaBetaPrune::get_move(State *state, int depth){
     if(!state->legal_actions.size()) state->get_legal_actions();
     auto actions = state->legal_actions;
     int chosen=0;
-    int minval = 100000000;
+    int minval =  100000000;
     int maxval = -100000000;
     bool flag = depth%2;
     for (unsigned long i = 0; i < actions.size(); i++){
@@ -44,7 +44,6 @@ int AlphaBetaPrune::alphabeta(State *state, int depth, bool myself,int alpha,int
     if (!depth) return state->evaluate();
     if (!state->legal_actions.size()) state->get_legal_actions();
     auto actions = state->legal_actions;
-
     if (myself){
         int minval=100000000;    
         for (unsigned long i = 0; i < actions.size(); i++){

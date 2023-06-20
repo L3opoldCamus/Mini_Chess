@@ -18,16 +18,16 @@ Move Minimax::get_move(State *state, int depth){
     auto actions = state->legal_actions;
     int chosen=0;
     int minval = 100000000;
-    int maxval = -100000000;
-    bool flag = depth%2;
+    int maxval = -100000000;//Add
+    bool flag = depth%2;//Add
     for (unsigned long i = 0; i < actions.size(); i++){
-        int tem = Minimax::minimax(state->next_state(actions[i]),depth,flag);
-        if (flag){
-            if (maxval < tem){
-                chosen = i;
-                maxval = tem;
-            }
-        }
+        int tem = Minimax::minimax(state->next_state(actions[i]),depth,flag);//Add
+        if (flag){//Add
+            if (maxval < tem){//
+                chosen = i;//
+                maxval = tem;//
+            }//
+        }//
         else {
             if (minval>tem){
                 chosen = i;
